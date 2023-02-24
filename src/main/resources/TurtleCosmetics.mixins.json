@@ -1,0 +1,15 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.hakimen.turtlecosmetics.mixin",
+    "compatibilityLevel": "JAVA_8",
+    "refmap": "turtlecosmetics.refmap.json",
+    "mixins": [
+    ],
+    "client": [
+        "TurtleRenderer"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
