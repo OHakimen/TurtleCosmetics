@@ -1,7 +1,7 @@
 package com.hakimen.turtlecosmetics.utils;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.resource.*;
+
 
 import java.util.ArrayList;
 import java.util.List;

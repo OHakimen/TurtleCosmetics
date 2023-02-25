@@ -2,11 +2,9 @@ package com.hakimen.turtlecosmetics.utils;
 
 import com.hakimen.turtlecosmetics.TurtleCosmetics;
 import com.hakimen.turtlecosmetics.api.Overlay;
-import dan200.computercraft.client.ClientRegistry;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Overlays {
     public static ArrayList<Overlay> overlays = new ArrayList<Overlay>();
