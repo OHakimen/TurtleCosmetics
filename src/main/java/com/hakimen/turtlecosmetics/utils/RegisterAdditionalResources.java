@@ -2,21 +2,21 @@ package com.hakimen.turtlecosmetics.utils;
 
 import com.hakimen.turtlecosmetics.TurtleCosmetics;
 
-import net.minecraft.resources.ResourceLocation;
+import com.hakimen.turtlecosmetics.api.Overlay;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber( modid = TurtleCosmetics.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD )
-public class Additional {
+public class RegisterAdditionalResources {
 
     @SubscribeEvent
     public static void registerModels( ModelEvent.RegisterAdditional event )
     {
         Overlays.load();
-        for (ResourceLocation overlay : Overlays.overlays.values() ){
-            event.register(overlay);
+        for (Overlay overlay : Overlays.overlays ){
+            event.register(overlay.getOverlay());
         }
     }
 

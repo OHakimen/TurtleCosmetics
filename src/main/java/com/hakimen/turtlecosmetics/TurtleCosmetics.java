@@ -34,23 +34,8 @@ public class TurtleCosmetics {
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::client);
-
-
-
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void client(final FMLClientSetupEvent event) {
-
-    }
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-
-    }
 
 }

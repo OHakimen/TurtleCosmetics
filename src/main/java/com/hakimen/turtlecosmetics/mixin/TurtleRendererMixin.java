@@ -1,7 +1,9 @@
 package com.hakimen.turtlecosmetics.mixin;
 
 
+import com.hakimen.turtlecosmetics.api.Overlay;
 import com.hakimen.turtlecosmetics.utils.Overlays;
+import com.hakimen.turtlecosmetics.utils.RenderUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix4f;
@@ -28,11 +30,10 @@ import org.spongepowered.asm.mixin.*;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @Pseudo
 @Mixin(value = TileEntityTurtleRenderer.class, remap = false)
-public abstract class TurtleRenderer {
+public abstract class TurtleRendererMixin {
 
     @Shadow
     @Final
@@ -45,22 +46,6 @@ public abstract class TurtleRenderer {
 
     @Shadow @Final private static ResourceLocation ELF_OVERLAY_MODEL;
 
-    private static ResourceLocation[] getTurtleOverlayModel(String label, ResourceLocation overlay, boolean christmas)
-    {
-        if( overlay != null ) return new ResourceLocation[]{overlay};
-        if( christmas ) return new ResourceLocation[]{ELF_OVERLAY_MODEL};
-        if( label != null){
-            var toReturn = new ArrayList<ResourceLocation>();
-            label = label.toLowerCase();
-            for (String key: Overlays.overlays.keySet()) {
-                if(label.contains(key)){
-                    toReturn.add(Overlays.overlays.get(key));
-                }
-            }
-            return toReturn.toArray(new ResourceLocation[toReturn.size()]);
-        }
-        return null;
-    }
 
     /**
      * @author
@@ -84,7 +69,22 @@ public abstract class TurtleRenderer {
     private static final ModelResourceLocation ADVANCED_TURTLE_MODEL = new ModelResourceLocation( "computercraft:turtle_advanced", "inventory" );
     private static final ResourceLocation COLOUR_TURTLE_MODEL = new ResourceLocation( ComputerCraft.MOD_ID, "block/turtle_colour" );
 
-
+    private static ResourceLocation[] getTurtleOverlayModel(String label, ResourceLocation overlay, boolean christmas)
+    {
+        if( overlay != null ) return new ResourceLocation[]{overlay};
+        if( christmas ) return new ResourceLocation[]{ELF_OVERLAY_MODEL};
+        if( label != null){
+            var toReturn = new ArrayList<ResourceLocation>();
+            label = label.toLowerCase();
+            for (Overlay over: Overlays.overlays) {
+                if(label.contains(over.getLabel())){
+                    toReturn.add(over.getOverlay());
+                }
+            }
+            return toReturn.toArray(new ResourceLocation[toReturn.size()]);
+        }
+        return null;
+    }
 
 
     /**
@@ -142,7 +142,7 @@ public abstract class TurtleRenderer {
 
         // Render the overlay
         ResourceLocation[] overlayModels = getTurtleOverlayModel(label,overlay, HolidayUtil.getCurrentHoliday() == Holiday.CHRISTMAS );
-        if(overlayModels != null){
+        if (overlayModels != null){
             for (ResourceLocation overlayModel:overlayModels) {
                 renderModel( transform, buffer, lightmapCoord, overlayLight, overlayModel, null );
             }
