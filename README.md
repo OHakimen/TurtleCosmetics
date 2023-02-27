@@ -18,5 +18,5 @@ by adding the elf label on a turtle it gets the elf overlay, overlays can be sta
 More overlays can be added by other mods by pushing Overlays like this:
 
 ```java
-	Overlays.overlays.add(new Overlay("glass", new ResourceLocation("minecraft:block/glass")))
+	Overlays.addOverlay(new Overlay("glass",new ResourceLocation("minecraft:block/glass")));
 ```
