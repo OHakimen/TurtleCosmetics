@@ -102,7 +102,7 @@ public abstract class SmartModellerMixin {
                 String name = nameTag.getString("Name");
                 var toReturn = new ArrayList<ResourceLocation>();
                 name = name.toLowerCase().replace("{\"text\":\"}","").replace("\"}","");
-                for (Overlay over: Overlays.overlays) {
+                for (Overlay over: Overlays.getOverlays()) {
                     if(name.contains(over.getLabel())){
                         toReturn.add(over.getOverlay());
                     }

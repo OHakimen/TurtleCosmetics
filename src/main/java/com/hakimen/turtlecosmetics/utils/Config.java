@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Config {
-    public static final ForgeConfigSpec.Builder clientConfig = new ForgeConfigSpec.Builder();;
+    public static final ForgeConfigSpec.Builder clientConfig = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec clientSpec;
     public static ForgeConfigSpec.ConfigValue<List<String>> cosmetics;
     public static ForgeConfigSpec.ConfigValue<List<String>> labelNames;

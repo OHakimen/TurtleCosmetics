@@ -5,9 +5,11 @@ import com.hakimen.turtlecosmetics.api.Overlay;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Overlays {
-    public static ArrayList<Overlay> overlays = new ArrayList<Overlay>();
+    static ArrayList<Overlay> overlays = new ArrayList<Overlay>();
     public static void load(){
         var cosmeticPaths = Config.cosmetics.get();
         var labels = Config.labelNames.get();
@@ -15,7 +17,22 @@ public class Overlays {
             var path = cosmeticPaths.get(i).split(":");
             var resource = new ResourceLocation(path[0],path[1]);
             overlays.add(new Overlay(labels.get(i),resource));
-            TurtleCosmetics.LOGGER.info("[Overlays] Registered "+ resource + " with label "+labels.get(i));
+            TurtleCosmetics.LOGGER.info("[TurtleCosmetics] Registered "+ resource + " with label "+labels.get(i));
         }
+    }
+
+    public static List<Overlay> getOverlays(){
+        return overlays.subList(0,overlays.size());
+    }
+
+    public static void addOverlay(Overlay overlay){
+        overlays.add(overlay);
+    }
+    public static void addOverlays(List<Overlay> newOverlays){
+        overlays.addAll(newOverlays);
+    }
+
+    public static Overlay getOverlay(int index){
+        return overlays.get(index);
     }
 }

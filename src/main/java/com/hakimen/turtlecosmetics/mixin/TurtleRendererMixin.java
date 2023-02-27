@@ -76,7 +76,7 @@ public abstract class TurtleRendererMixin {
         if( label != null){
             var toReturn = new ArrayList<ResourceLocation>();
             label = label.toLowerCase();
-            for (Overlay over: Overlays.overlays) {
+            for (Overlay over: Overlays.getOverlays()) {
                 if(label.contains(over.getLabel())){
                     toReturn.add(over.getOverlay());
                 }

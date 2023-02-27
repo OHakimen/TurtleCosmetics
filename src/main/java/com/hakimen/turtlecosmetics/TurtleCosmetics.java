@@ -2,6 +2,7 @@ package com.hakimen.turtlecosmetics;
 
 import com.hakimen.turtlecosmetics.utils.Config;
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.gui.components.DebugScreenOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -23,7 +24,6 @@ public class TurtleCosmetics {
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.clientSpec, "turtle-cosmetics-client.toml");
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
         MinecraftForge.EVENT_BUS.register(this);
     }
 
