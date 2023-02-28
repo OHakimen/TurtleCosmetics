@@ -14,6 +14,7 @@ public class RegisterAdditionalResources {
     @SubscribeEvent
     public static void registerModels( ModelEvent.RegisterAdditional event )
     {
+        Overlays.clear();
         Overlays.load();
         for (Overlay overlay : Overlays.overlays ){
             event.register(overlay.getOverlay());

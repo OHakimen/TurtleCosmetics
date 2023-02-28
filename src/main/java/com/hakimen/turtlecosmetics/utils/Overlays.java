@@ -17,10 +17,13 @@ public class Overlays {
             var path = cosmeticPaths.get(i).split(":");
             var resource = new ResourceLocation(path[0],path[1]);
             overlays.add(new Overlay(labels.get(i),resource));
-            TurtleCosmetics.LOGGER.info("[TurtleCosmetics] Registered "+ resource + " with label "+labels.get(i));
+            TurtleCosmetics.LOGGER.info("[CC Cosmetics] Registered "+ resource + " with label "+labels.get(i));
         }
     }
 
+    public static void clear(){
+        overlays.clear();
+    }
     public static List<Overlay> getOverlays(){
         return overlays.subList(0,overlays.size());
     }
