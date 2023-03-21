@@ -21,20 +21,37 @@ public class Overlays {
         }
     }
 
-    public static void clear(){
+    protected static void clear(){
         overlays.clear();
     }
+
+    /**
+     *  Gets all overlays
+     * @return a <code>List</code> of all overlays registered;
+     */
     public static List<Overlay> getOverlays(){
         return overlays.subList(0,overlays.size());
     }
-
+    /**
+     * Register a Overlay
+     * @param overlay an overlay to add
+     */
     public static void addOverlay(Overlay overlay){
         overlays.add(overlay);
     }
+
+    /**
+     * Register a list of overlays
+     * @param newOverlays a list of overlays to add
+     */
     public static void addOverlays(List<Overlay> newOverlays){
         overlays.addAll(newOverlays);
     }
-
+    /**
+     * Get an overlay by index
+     * @param index the list index of the Overlay
+     * @return an Overlay got from the List using the index
+     */
     public static Overlay getOverlay(int index){
         return overlays.get(index);
     }

@@ -3,16 +3,15 @@ package com.hakimen.turtlecosmetics.mixin;
 
 import com.hakimen.turtlecosmetics.api.Overlay;
 import com.hakimen.turtlecosmetics.utils.Overlays;
-import com.hakimen.turtlecosmetics.utils.RenderUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
-import dan200.computercraft.ComputerCraft;
+import com.mojang.math.Axis;
+import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.api.turtle.TurtleSide;
-import dan200.computercraft.client.render.TileEntityTurtleRenderer;
+
+import dan200.computercraft.client.render.TurtleBlockEntityRenderer;
 import dan200.computercraft.shared.computer.core.ComputerFamily;
-import dan200.computercraft.shared.turtle.blocks.TileTurtle;
+import dan200.computercraft.shared.turtle.blocks.TurtleBlockEntity;
 import dan200.computercraft.shared.util.Holiday;
 import dan200.computercraft.shared.util.HolidayUtil;
 import net.minecraft.client.Minecraft;
@@ -26,13 +25,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.*;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
 @Pseudo
-@Mixin(value = TileEntityTurtleRenderer.class, remap = false)
+@Mixin(value = TurtleBlockEntityRenderer.class, remap = false)
 public abstract class TurtleRendererMixin {
 
     @Shadow
@@ -42,7 +43,7 @@ public abstract class TurtleRendererMixin {
     @Shadow protected abstract void renderModel(@NotNull PoseStack transform, @NotNull VertexConsumer renderer, int lightmapCoord, int overlayLight, ResourceLocation model, int[] tints);
 
 
-    @Shadow protected abstract void renderUpgrade(@NotNull PoseStack transform, @NotNull VertexConsumer renderer, int lightmapCoord, int overlayLight, TileTurtle turtle, TurtleSide side, float f);
+    @Shadow protected abstract void renderUpgrade(@NotNull PoseStack transform, @NotNull VertexConsumer renderer, int lightmapCoord, int overlayLight, TurtleBlockEntity turtle, TurtleSide side, float f);
 
     @Shadow @Final private static ResourceLocation ELF_OVERLAY_MODEL;
 
@@ -65,9 +66,9 @@ public abstract class TurtleRendererMixin {
     }
 
 
-    private static final ModelResourceLocation NORMAL_TURTLE_MODEL = new ModelResourceLocation( "computercraft:turtle_normal", "inventory" );
-    private static final ModelResourceLocation ADVANCED_TURTLE_MODEL = new ModelResourceLocation( "computercraft:turtle_advanced", "inventory" );
-    private static final ResourceLocation COLOUR_TURTLE_MODEL = new ResourceLocation( ComputerCraft.MOD_ID, "block/turtle_colour" );
+    private static final ModelResourceLocation NORMAL_TURTLE_MODEL = new ModelResourceLocation( new ResourceLocation("computercraft:turtle_normal"), "inventory" );
+    private static final ModelResourceLocation ADVANCED_TURTLE_MODEL = new ModelResourceLocation( new ResourceLocation("computercraft:turtle_advanced"), "inventory" );
+    private static final ResourceLocation COLOUR_TURTLE_MODEL = new ResourceLocation( ComputerCraftAPI.MOD_ID, "block/turtle_colour" );
 
     private static ResourceLocation[] getTurtleOverlayModel(String label, ResourceLocation overlay, boolean christmas)
     {
@@ -92,10 +93,10 @@ public abstract class TurtleRendererMixin {
      * @reason
      */
     @Overwrite
-    public void render(@Nonnull TileTurtle turtle, float partialTicks, @Nonnull PoseStack transform, @Nonnull MultiBufferSource buffers, int lightmapCoord, int overlayLight )
+    public void render(@Nonnull TurtleBlockEntity turtle, float partialTicks, @Nonnull PoseStack transform, @Nonnull MultiBufferSource buffers, int lightmapCoord, int overlayLight )
     {
         // Render the label
-        String label = turtle.createProxy().getLabel();
+        String label = turtle.getLabel();
         HitResult hit = renderer.cameraHitResult;
         if( label != null && hit.getType() == HitResult.Type.BLOCK && turtle.getBlockPos().equals( ((BlockHitResult) hit).getBlockPos() ) )
         {
@@ -124,7 +125,7 @@ public abstract class TurtleRendererMixin {
         transform.translate( offset.x, offset.y, offset.z );
 
         transform.translate( 0.5f, 0.5f, 0.5f );
-        transform.mulPose( Vector3f.YP.rotationDegrees( 180.0f - yaw ) );
+        transform.mulPose( Axis.YP.rotationDegrees( 180.0f - yaw ) );
         if( label != null && (label.equals( "Dinnerbone" ) || label.equals( "Grumm" )) )
         {
             // Flip the model
